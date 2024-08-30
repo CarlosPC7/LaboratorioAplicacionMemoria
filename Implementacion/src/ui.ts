@@ -1,11 +1,10 @@
 import { iniciaPartida, sonPareja, parejaEncontrada, parejaNoEncontrada, sePuedeVoltearLaCarta, voltearLaCarta } from './motor';
-import { Tablero } from './modelo';
+import { tablero } from './modelo';
 
 // Referencias al DOM
 const btnIniciar = document.getElementById('btn-iniciar') as HTMLButtonElement;
 const tableroElement = document.getElementById('tablero') as HTMLDivElement;
 
-let tablero: Tablero;
 
 // Función para iniciar la partida
 const iniciarPartidaHandler = () => {
@@ -53,11 +52,11 @@ const manejarClickCarta1 = (indice: number) => {
 // Asociar el botón "Iniciar Partida" al evento de iniciar la partida
 btnIniciar.addEventListener('click', iniciarPartidaHandler);
 
-// Inicializar tablero vacío al inicio
-tablero = {
+// Inicializar tablero vacío al inicio (iniciarPartida)
+/*tablero = {
   cartas: [],
   estadoPartida: 'PartidaNoIniciada',
-};
+};*/
 
 // Inicializamos el tablero en la UI (mostrando las cartas boca abajo)
 renderizarTablero1();
