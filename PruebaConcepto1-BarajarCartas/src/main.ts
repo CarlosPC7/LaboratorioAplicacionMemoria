@@ -23,7 +23,9 @@ let cards: Card[] = [
     { id: 9, content: 'url9' },
     { id: 10, content: 'url10' },
     { id: 11, content: 'url11' },
-    { id: 22, content: 'url12' },
+    { id: 12, content: 'url12' },
 ];
 
 let shuffledCards = shuffleArray(cards);
+
+console.log(shuffledCards);
