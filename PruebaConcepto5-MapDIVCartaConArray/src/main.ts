@@ -13,13 +13,11 @@ interface InfoCarta {
   ];
 
 
-const gridContainer = document.createElement('div');
-gridContainer.id = 'grid-container';
-document.body.appendChild(gridContainer);
+const gridContainer = document.getElementById('grid-container') as HTMLDivElement;
   
-cartas.forEach((carta, index) => {
+cartas.forEach((_, index) => {
     const cardDiv = document.createElement('div');
-    cardDiv.className = 'card';
+    cardDiv.classList.add('card');
     cardDiv.setAttribute('data-index', index.toString());
   
     const cardImg = document.createElement('img');
