@@ -1,15 +1,23 @@
-const card1 = document.getElementById('card1') as HTMLElement;
-const card2 = document.getElementById('card2') as HTMLElement;
-const img1 = card1.querySelector('img') as HTMLImageElement;
-const img2 = card2.querySelector('img') as HTMLImageElement;
+const containerCards = document.getElementById('grid-container') as HTMLDivElement;
 
-const card1FrontImage = 'cat1.jpg';
-const card2FrontImage = 'cat2.jpg';
+const cardZero = 'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/refs/heads/main/memo/1.png';
+const cardOne = 'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/refs/heads/main/memo/6.png';
+const cardTwo = 'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/refs/heads/main/memo/5.png';
 
-card1.addEventListener('click', () => {
-    img1.src = card1FrontImage;
-});
+const cardsToFlip = [cardOne, cardTwo]
 
-card2.addEventListener('click', () => {
-    img2.src = card2FrontImage;
-});
+for (let i = 0; i < 2; i++) {
+    const card = document.createElement('div');
+    card.classList.add('card');
+
+    const imageCard = document.createElement('img');
+    imageCard.classList.add('imageCard');
+    imageCard.src = cardZero;
+
+    card.addEventListener("click", () => {
+        imageCard.src = cardsToFlip[i];
+    })
+
+    card.appendChild(imageCard);
+    containerCards.appendChild(card);
+};
