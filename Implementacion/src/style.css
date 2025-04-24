@@ -26,6 +26,7 @@
   animation: girar 0.6s;
 }
 
+/* 3. Mostrar un efecto hover cuando el usuario ponga el ratón sobre una carta. */
 .carta:hover {
   transform: scale(1.1);
   transition: transform 0.3s;

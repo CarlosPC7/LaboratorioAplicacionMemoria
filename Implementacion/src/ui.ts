@@ -15,7 +15,7 @@ const iniciarPartidaHandler = () => {
 
 // Función para renderizar el tablero de cartas
 const renderizarTablero1 = () => {
-  tableroElement.innerHTML = ''; // Limpiamos el tablero
+  tableroElement.innerHTML = '';
   tablero.cartas.forEach((carta, indice) => {
     const cartaElement = document.createElement('img');
     cartaElement.src = carta.estaVuelta || carta.encontrada ? carta.imagen : 'ruta-a-imagen-carta-boca-abajo.png';
@@ -98,14 +98,13 @@ const manejarClickCarta2 = (indice: number) => {
 //2. Mostrar una animación cuando el usuario pinche en una carta
 
 const renderizarTablero2 = () => {
-    tableroElement.innerHTML = ''; // Limpiamos el tablero
+    tableroElement.innerHTML = '';
     tablero.cartas.forEach((carta, indice) => {
       const cartaElement = document.createElement('img');
       cartaElement.src = carta.estaVuelta || carta.encontrada ? carta.imagen : 'ruta-a-imagen-carta-boca-abajo.png';
       cartaElement.classList.add('carta');
       cartaElement.setAttribute('data-indice-array', indice.toString());
   
-      // Añadimos la clase de animación
       cartaElement.classList.add('animacion-carta');
       
       cartaElement.addEventListener('click', () => manejarClickCarta2(indice));
@@ -144,14 +143,13 @@ const manejarClickCarta3 = (indice: number) => {
   };
 
   const renderizarTablero3 = () => {
-    tableroElement.innerHTML = ''; // Limpiamos el tablero
+    tableroElement.innerHTML = '';
     tablero.cartas.forEach((carta, indice) => {
       const cartaElement = document.createElement('img');
       cartaElement.src = carta.estaVuelta || carta.encontrada ? carta.imagen : 'ruta-a-imagen-carta-boca-abajo.png';
       cartaElement.classList.add('carta');
       cartaElement.setAttribute('data-indice-array', indice.toString());
   
-      // Añadimos la clase de animación
       cartaElement.classList.add('animacion-carta');
       
       cartaElement.addEventListener('click', () => manejarClickCarta3(indice));
