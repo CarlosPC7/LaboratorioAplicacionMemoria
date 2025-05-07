@@ -91,7 +91,8 @@ const actualizarIntentos = () => {
 };
 
 //2. Mostrar una animación cuando el usuario pinche en una carta
-// Añadido a función el código cartaElement.classList.remove('animacion-carta');
+//3. Mostrar un efecto hover cuando el usuario ponga el ratón sobre una carta
+// Añadidos a función el código cartaElement.classList.remove('animacion-carta');
 
 // 4. Mostrar un mensaje si el usuario pincha en una carta ya volteada
 const mostrarMensajeCartaVolteada = (indice: number) => {
