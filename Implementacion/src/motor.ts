@@ -25,7 +25,7 @@ export const sePuedeVoltearLaCarta = (tablero: Tablero, indice: number ): boolea
 };
   
 export const voltearLaCarta = (tablero: Tablero, indice: number) : void => {
-    if (sePuedeVoltearLaCarta(tablero, indice)) {
+    // if (sePuedeVoltearLaCarta(tablero, indice)) {
         const carta = tablero.cartas[indice];
         carta.estaVuelta = true;
     
@@ -36,7 +36,7 @@ export const voltearLaCarta = (tablero: Tablero, indice: number) : void => {
           tablero.indiceCartaVolteadaB = indice;
           tablero.estadoPartida = "DosCartasLevantadas";
         }
-      }
+      // }
 };
   
   /*

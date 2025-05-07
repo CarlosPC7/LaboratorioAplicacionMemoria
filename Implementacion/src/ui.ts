@@ -1,5 +1,5 @@
 import { iniciaPartida, sonPareja, parejaEncontrada, parejaNoEncontrada, sePuedeVoltearLaCarta, voltearLaCarta } from './motor';
-import { tablero } from './modelo';
+import { Tablero, tablero } from './modelo';
 
 // Referencias al DOM
 const btnIniciar = document.getElementById('btn-iniciar') as HTMLButtonElement;
@@ -28,35 +28,53 @@ const renderizarTablero1 = () => {
 
 // Función para manejar el clic en una carta
 const manejarClickCarta1 = (indice: number) => {
-  if (sePuedeVoltearLaCarta(tablero, indice)) {
-    voltearLaCarta(tablero, indice);
-    renderizarTablero1();
+  const cartaElement = document.querySelector(`img[data-indice-array="${indice}"]`) as HTMLImageElement;
 
-    if (tablero.estadoPartida === 'DosCartasLevantadas') {
-      const { indiceCartaVolteadaA, indiceCartaVolteadaB } = tablero;
+  if (cartaElement) {
+    cartaElement.classList.add('animacion-carta');
+    setTimeout(() => {
+      cartaElement.classList.remove('animacion-carta');
 
-      if (indiceCartaVolteadaA !== undefined && indiceCartaVolteadaB !== undefined) {
-        if (sonPareja(indiceCartaVolteadaA, indiceCartaVolteadaB, tablero)) {
-          parejaEncontrada(tablero, indiceCartaVolteadaA, indiceCartaVolteadaB);
+    if (sePuedeVoltearLaCarta(tablero, indice)) {
+        voltearLaCarta(tablero, indice);
+        renderizarTablero1();
+        esLaSegundaCarta(tablero);
         } else {
-          setTimeout(() => {
-            parejaNoEncontrada(tablero, indiceCartaVolteadaA, indiceCartaVolteadaB);
-            renderizarTablero1();
-          }, 1000);
-        }
+        mostrarMensajeCartaVolteada(indice);
       }
+    }, 600);
+    } else {
+    // Si no hay carta (por algún error), ejecutar directamente
+    if (sePuedeVoltearLaCarta(tablero, indice)) {
+      voltearLaCarta(tablero, indice);
+      renderizarTablero1();
+      esLaSegundaCarta(tablero);
+    } else {
+      mostrarMensajeCartaVolteada(indice);
     }
   }
 };
 
+const esLaSegundaCarta = (tablero: Tablero) => {
+  const indiceCartaA = tablero.indiceCartaVolteadaA;
+  const indiceCartaB = tablero.indiceCartaVolteadaB;
+
+  if (indiceCartaA !== undefined && indiceCartaB !== undefined) {
+        if (sonPareja(indiceCartaA, indiceCartaB, tablero)) {
+          parejaEncontrada(tablero, indiceCartaA, indiceCartaB);
+        } else {
+          setTimeout(() => {
+            parejaNoEncontrada(tablero, indiceCartaA, indiceCartaB);
+            renderizarTablero1();
+          }, 1000);
+          actualizarIntentos();
+        }
+      }
+}
+
+
 // Asociar el botón "Iniciar Partida" al evento de iniciar la partida
 btnIniciar.addEventListener('click', iniciarPartidaHandler);
-
-// Inicializar tablero vacío al inicio (iniciarPartida)
-/*tablero = {
-  cartas: [],
-  estadoPartida: 'PartidaNoIniciada',
-};*/
 
 // Inicializamos el tablero en la UI (mostrando las cartas boca abajo)
 renderizarTablero1();
@@ -72,87 +90,13 @@ const actualizarIntentos = () => {
   intentosElement.textContent = `Intentos: ${intentos}`;
 };
 
-const manejarClickCarta2 = (indice: number) => {
-  if (sePuedeVoltearLaCarta(tablero, indice)) {
-    voltearLaCarta(tablero, indice);
-    renderizarTablero2();
-
-    if (tablero.estadoPartida === 'DosCartasLevantadas') {
-      const { indiceCartaVolteadaA, indiceCartaVolteadaB } = tablero;
-
-      if (indiceCartaVolteadaA !== undefined && indiceCartaVolteadaB !== undefined) {
-        if (sonPareja(indiceCartaVolteadaA, indiceCartaVolteadaB, tablero)) {
-          parejaEncontrada(tablero, indiceCartaVolteadaA, indiceCartaVolteadaB);
-        } else {
-          setTimeout(() => {
-            parejaNoEncontrada(tablero, indiceCartaVolteadaA, indiceCartaVolteadaB);
-            renderizarTablero2();
-          }, 1000);
-        }
-        actualizarIntentos();
-      }
-    }
-  }
-};
-
 //2. Mostrar una animación cuando el usuario pinche en una carta
-
-const renderizarTablero2 = () => {
-    tableroElement.innerHTML = '';
-    tablero.cartas.forEach((carta, indice) => {
-      const cartaElement = document.createElement('img');
-      cartaElement.src = carta.estaVuelta || carta.encontrada ? carta.imagen : 'ruta-a-imagen-carta-boca-abajo.png';
-      cartaElement.classList.add('carta');
-      cartaElement.setAttribute('data-indice-array', indice.toString());
-  
-      cartaElement.classList.add('animacion-carta');
-      
-      cartaElement.addEventListener('click', () => manejarClickCarta2(indice));
-      tableroElement.appendChild(cartaElement);
-    });
-  };
+// Añadido a función el código cartaElement.classList.remove('animacion-carta');
 
 // 4. Mostrar un mensaje si el usuario pincha en una carta ya volteada
-const manejarClickCarta3 = (indice: number) => {
-    const carta = tablero.cartas[indice];
+const mostrarMensajeCartaVolteada = (indice: number) => {
+  const carta = tablero.cartas[indice];
     if (carta.estaVuelta || carta.encontrada) {
       alert("Esta carta ya está volteada o ya ha sido encontrada.");
-      return;
     }
-  
-    if (sePuedeVoltearLaCarta(tablero, indice)) {
-      voltearLaCarta(tablero, indice);
-      renderizarTablero3();
-  
-      if (tablero.estadoPartida === 'DosCartasLevantadas') {
-        const { indiceCartaVolteadaA, indiceCartaVolteadaB } = tablero;
-  
-        if (indiceCartaVolteadaA !== undefined && indiceCartaVolteadaB !== undefined) {
-          if (sonPareja(indiceCartaVolteadaA, indiceCartaVolteadaB, tablero)) {
-            parejaEncontrada(tablero, indiceCartaVolteadaA, indiceCartaVolteadaB);
-          } else {
-            setTimeout(() => {
-              parejaNoEncontrada(tablero, indiceCartaVolteadaA, indiceCartaVolteadaB);
-              renderizarTablero3();
-            }, 1000);
-          }
-          actualizarIntentos();
-        }
-      }
-    }
-  };
-
-  const renderizarTablero3 = () => {
-    tableroElement.innerHTML = '';
-    tablero.cartas.forEach((carta, indice) => {
-      const cartaElement = document.createElement('img');
-      cartaElement.src = carta.estaVuelta || carta.encontrada ? carta.imagen : 'ruta-a-imagen-carta-boca-abajo.png';
-      cartaElement.classList.add('carta');
-      cartaElement.setAttribute('data-indice-array', indice.toString());
-  
-      cartaElement.classList.add('animacion-carta');
-      
-      cartaElement.addEventListener('click', () => manejarClickCarta3(indice));
-      tableroElement.appendChild(cartaElement);
-    });
-  };
+}
