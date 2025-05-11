@@ -67,39 +67,3 @@ export interface Carta {
   });
   
   export let tablero: Tablero = crearTableroInicial();
-
-/*
-  export const manejarClickEnCarta = (indice: number, tablero: Tablero): Tablero => {
-    if (tablero.estadoPartida === "PartidaNoIniciada") {
-      return tablero;
-    }
-  
-    if (tablero.estadoPartida === "CeroCartasLevantadas" || tablero.estadoPartida === "UnaCartaLevantada") {
-      const nuevaCarta = { ...tablero.cartas[indice], estaVuelta: true };
-      const nuevasCartas = [...tablero.cartas];
-      nuevasCartas[indice] = nuevaCarta;
-  
-      let nuevoEstado: EstadoPartida = "CeroCartasLevantadas";
-      let indiceCartaVolteadaA = tablero.indiceCartaVolteadaA;
-      let indiceCartaVolteadaB = tablero.indiceCartaVolteadaB;
-  
-      if (tablero.estadoPartida === "CeroCartasLevantadas") {
-        nuevoEstado = "UnaCartaLevantada";
-        indiceCartaVolteadaA = indice;
-      } else if (tablero.estadoPartida === "UnaCartaLevantada") {
-        nuevoEstado = "DosCartasLevantadas";
-        indiceCartaVolteadaB = indice;
-      }
-  
-      return {
-        ...tablero,
-        cartas: nuevasCartas,
-        estadoPartida: nuevoEstado,
-        indiceCartaVolteadaA,
-        indiceCartaVolteadaB,
-      };
-    }
-  
-    return tablero;
-  };
-  */

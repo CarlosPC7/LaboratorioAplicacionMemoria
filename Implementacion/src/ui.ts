@@ -2,8 +2,8 @@ import { iniciaPartida, sonPareja, parejaEncontrada, parejaNoEncontrada, sePuede
 import { Tablero, tablero } from './modelo';
 
 // Referencias al DOM
-const btnIniciar = document.getElementById('btn-iniciar') as HTMLButtonElement;
-const tableroElement = document.getElementById('tablero') as HTMLDivElement;
+const btnIniciar = document.getElementById('btn-iniciar');
+const tableroElement = document.getElementById('tablero');
 
 
 // Función para iniciar la partida
@@ -15,6 +15,7 @@ const iniciarPartidaHandler = () => {
 
 // Función para renderizar el tablero de cartas
 const renderizarTablero1 = () => {
+  if (tableroElement && tableroElement instanceof HTMLDivElement) {
   tableroElement.innerHTML = '';
   tablero.cartas.forEach((carta, indice) => {
     const cartaElement = document.createElement('img');
@@ -24,13 +25,14 @@ const renderizarTablero1 = () => {
     cartaElement.addEventListener('click', () => manejarClickCarta1(indice));
     tableroElement.appendChild(cartaElement);
   });
+}
 };
 
 // Función para manejar el clic en una carta
 const manejarClickCarta1 = (indice: number) => {
-  const cartaElement = document.querySelector(`img[data-indice-array="${indice}"]`) as HTMLImageElement;
+  const cartaElement = document.querySelector(`img[data-indice-array="${indice}"]`);
 
-  if (cartaElement) {
+  if (cartaElement && cartaElement instanceof HTMLImageElement) {
     cartaElement.classList.add('animacion-carta');
     setTimeout(() => {
       cartaElement.classList.remove('animacion-carta');
@@ -74,7 +76,13 @@ const esLaSegundaCarta = (tablero: Tablero) => {
 
 
 // Asociar el botón "Iniciar Partida" al evento de iniciar la partida
-btnIniciar.addEventListener('click', iniciarPartidaHandler);
+const mostrarInicioSesion = () => {
+  if (btnIniciar && btnIniciar instanceof HTMLButtonElement) {
+    btnIniciar.addEventListener('click', iniciarPartidaHandler);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", mostrarInicioSesion);
 
 // Inicializamos el tablero en la UI (mostrando las cartas boca abajo)
 renderizarTablero1();
@@ -83,11 +91,13 @@ renderizarTablero1();
 // Apartados opcionales
 // 1. Mostrar cuántos intentos lleva el usuario
 let intentos = 0;
-const intentosElement = document.getElementById('intentos') as HTMLDivElement;
+const intentosElement = document.getElementById('intentos');
 
 const actualizarIntentos = () => {
+  if (intentosElement && intentosElement instanceof HTMLDivElement) {
   intentos++;
   intentosElement.textContent = `Intentos: ${intentos}`;
+}
 };
 
 //2. Mostrar una animación cuando el usuario pinche en una carta
