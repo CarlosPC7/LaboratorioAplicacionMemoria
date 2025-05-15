@@ -9,12 +9,11 @@ const tableroElement = document.getElementById('tablero');
 // Función para iniciar la partida
 const iniciarPartidaHandler = () => {
   iniciaPartida(tablero);
-  renderizarTablero1();
 };
 
 
 // Función para renderizar el tablero de cartas
-const renderizarTablero1 = () => {
+const renderizarTablero = () => {
   if (tableroElement && tableroElement instanceof HTMLDivElement) {
   tableroElement.innerHTML = '';
   tablero.cartas.forEach((carta, indice) => {
@@ -22,14 +21,22 @@ const renderizarTablero1 = () => {
     cartaElement.src = carta.estaVuelta || carta.encontrada ? carta.imagen : 'ruta-a-imagen-carta-boca-abajo.png';
     cartaElement.classList.add('carta');
     cartaElement.setAttribute('data-indice-array', indice.toString());
-    cartaElement.addEventListener('click', () => manejarClickCarta1(indice));
+    cartaElement.addEventListener('click', () => manejarClickCarta(indice));
     tableroElement.appendChild(cartaElement);
   });
 }
 };
 
+const mostrarCartaAnimal = (indiceCarta: number, urlCarta: string) => {
+  const elementoImagen = document.querySelector(`img[data-indice-array="${indiceCarta}"]`);
+
+  if (elementoImagen !== null && elementoImagen !== undefined && elementoImagen instanceof HTMLImageElement) {
+    elementoImagen.src = urlCarta;
+  }
+}
+
 // Función para manejar el clic en una carta
-const manejarClickCarta1 = (indice: number) => {
+const manejarClickCarta = (indice: number) => {
   const cartaElement = document.querySelector(`img[data-indice-array="${indice}"]`);
 
   if (cartaElement && cartaElement instanceof HTMLImageElement) {
@@ -39,23 +46,28 @@ const manejarClickCarta1 = (indice: number) => {
 
     if (sePuedeVoltearLaCarta(tablero, indice)) {
         voltearLaCarta(tablero, indice);
-        renderizarTablero1();
+        mostrarCartaAnimal(indice, tablero.cartas[indice].imagen);
         esLaSegundaCarta(tablero);
         } else {
         mostrarMensajeCartaVolteada(indice);
       }
     }, 600);
     } else {
-    // Si no hay carta (por algún error), ejecutar directamente
-    if (sePuedeVoltearLaCarta(tablero, indice)) {
-      voltearLaCarta(tablero, indice);
-      renderizarTablero1();
-      esLaSegundaCarta(tablero);
-    } else {
-      mostrarMensajeCartaVolteada(indice);
-    }
+    console.error('error!')
   }
 };
+
+const darleLaVueltaALasCartas = () => {
+  for (let indice = 0; tablero.cartas.length > indice; indice++) {
+    const elementoImagen = document.querySelector(`img[data-indice-array="${indice}"]`);
+
+    if (elementoImagen !== null && elementoImagen !== undefined && elementoImagen instanceof HTMLImageElement) {
+      if (!tablero.cartas[indice].encontrada && !tablero.cartas[indice].estaVuelta) {
+        elementoImagen.src = '';
+      }
+    }
+  }
+}
 
 const esLaSegundaCarta = (tablero: Tablero) => {
   const indiceCartaA = tablero.indiceCartaVolteadaA;
@@ -67,7 +79,7 @@ const esLaSegundaCarta = (tablero: Tablero) => {
         } else {
           setTimeout(() => {
             parejaNoEncontrada(tablero, indiceCartaA, indiceCartaB);
-            renderizarTablero1();
+            darleLaVueltaALasCartas();
           }, 1000);
           actualizarIntentos();
         }
@@ -80,12 +92,13 @@ const mostrarInicioSesion = () => {
   if (btnIniciar && btnIniciar instanceof HTMLButtonElement) {
     btnIniciar.addEventListener('click', iniciarPartidaHandler);
   }
+  renderizarTablero();
 }
 
 document.addEventListener("DOMContentLoaded", mostrarInicioSesion);
 
-// Inicializamos el tablero en la UI (mostrando las cartas boca abajo)
-renderizarTablero1();
+// // Inicializamos el tablero en la UI (mostrando las cartas boca abajo)
+// renderizarTablero1();
 
 
 // Apartados opcionales
